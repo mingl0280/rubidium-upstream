@@ -1,6 +1,9 @@
 package me.jellysquid.mods.sodium.client.model.quad;
 
+import me.jellysquid.mods.sodium.client.SodiumClientMod;
 import net.minecraft.client.texture.Sprite;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static me.jellysquid.mods.sodium.client.util.ModelQuadUtil.*;
 
@@ -105,8 +108,16 @@ public class ModelQuad implements ModelQuadViewMutable {
 
     @Override
     public float getTexU(int idx) {
+        if (this.data.length <= (vertexOffset(idx) + TEXTURE_INDEX)) {
+            //LOGGER.warn("(ModelQuad)Acquiring " + Integer.toString(vertexOffset(idx) + TEXTURE_INDEX) + "(vertextOffset = " + Integer.toString(vertexOffset(idx)) + ") is longer than " + Integer.toString(this.data.length));
+            return 0.0f;
+        }//else{
+            //LOGGER.info("(ModelQuad)Acquiring " + Integer.toString(vertexOffset(idx) + TEXTURE_INDEX) + "/"+ Integer.toString(vertexOffset(idx) + TEXTURE_INDEX));
+        //}
         return Float.intBitsToFloat(this.data[vertexOffset(idx) + TEXTURE_INDEX]);
     }
+
+    //private static Logger LOGGER = LoggerFactory.getLogger(SodiumClientMod.MODNAME);
 
     @Override
     public float getTexV(int idx) {
